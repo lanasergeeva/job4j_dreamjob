@@ -1,4 +1,4 @@
-package users;
+package dream.users;
 
 public class Candidate {
     public void hust() {
