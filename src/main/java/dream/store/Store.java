@@ -6,10 +6,12 @@ import dream.model.Post;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Store {
 
+    private static AtomicInteger postid = new AtomicInteger(4);
     private static final Store INST = new Store();
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
@@ -33,5 +35,10 @@ public class Store {
 
     public Collection<Candidate> findAllCandidates() {
         return candidates.values();
+    }
+
+    public void save(Post post) {
+        post.setId(postid.incrementAndGet());
+        posts.put(post.getId(), post);
     }
 }
