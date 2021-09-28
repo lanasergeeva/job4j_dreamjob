@@ -36,12 +36,12 @@ public class Store {
         return candidates.values();
     }
 
-    public void save(Post post) {
+    public void savePost(Post post) {
         post.setId(postid.incrementAndGet());
         posts.put(post.getId(), post);
     }
 
-    public void save(Candidate candidate) {
+    public void saveCandidate(Candidate candidate) {
         candidate.setId(postid.incrementAndGet());
         candidates.put(candidate.getId(), candidate);
     }
