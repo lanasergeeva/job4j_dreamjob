@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Store {
 
-    private static AtomicInteger postid = new AtomicInteger(4);
+    private static final AtomicInteger POSTID = new AtomicInteger(4);
     private static final Store INST = new Store();
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
@@ -37,12 +37,24 @@ public class Store {
     }
 
     public void save(Post post) {
-        post.setId(postid.incrementAndGet());
+        if (post.getId() == 0) {
+            post.setId(POSTID.incrementAndGet());
+        }
         posts.put(post.getId(), post);
     }
 
+    public Post findById(int id) {
+        return posts.get(id);
+    }
+
     public void save(Candidate candidate) {
-        candidate.setId(postid.incrementAndGet());
+        if (candidate.getId() == 0) {
+            candidate.setId(POSTID.incrementAndGet());
+        }
         candidates.put(candidate.getId(), candidate);
+    }
+
+    public Candidate findByIdCan(int id) {
+        return candidates.get(id);
     }
 }
