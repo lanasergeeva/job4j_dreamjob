@@ -13,7 +13,7 @@ public class DownloadServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String name = req.getParameter("name");
         File downloadFile = null;
-        for (File file : Objects.requireNonNull(new File("C:\\images\\").listFiles())) {
+        for (File file : Objects.requireNonNull(new File("C:\\images").listFiles())) {
             if (name.equals(file.getName())) {
                 downloadFile = file;
                 break;
