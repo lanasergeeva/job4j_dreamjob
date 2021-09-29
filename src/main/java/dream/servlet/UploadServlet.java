@@ -23,7 +23,7 @@ public class UploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<String> images = new ArrayList<>();
-        for (File name : Objects.requireNonNull(new File("с:\\images\\").listFiles())) {
+        for (File name : Objects.requireNonNull(new File("C:\\images\\").listFiles())) {
             images.add(name.getName());
         }
         req.setAttribute("images", images);
