@@ -2,7 +2,7 @@ package dream.model;
 
 import java.util.Objects;
 
-public class Candidate {
+public class Candidate implements NewData {
     private int id;
     private String name;
 
@@ -11,18 +11,22 @@ public class Candidate {
         this.name = name;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -38,6 +42,14 @@ public class Candidate {
         Candidate candidate = (Candidate) o;
         return id == candidate.id
                 && Objects.equals(name, candidate.name);
+    }
+
+    @Override
+    public String toString() {
+        return "Candidate{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + '}';
     }
 
     @Override

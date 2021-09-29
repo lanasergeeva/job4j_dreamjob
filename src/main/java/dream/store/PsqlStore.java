@@ -1,5 +1,6 @@
 package dream.store;
 
+import dream.model.NewData;
 import org.apache.commons.dbcp2.BasicDataSource;
 import dream.model.Candidate;
 import dream.model.Post;
@@ -84,39 +85,57 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public void save(Post post) {
-        if (post.getId() == 0) {
-            create(post);
+    public void save(NewData newData) {
+        if (newData.getId() == 0) {
+            create(newData);
         } else {
-            update(post.getId(), post);
+            update(newData.getId(), newData);
         }
     }
 
-    private Post create(Post post) {
-        try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name) VALUES (?)",
-                     PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, post.getName());
-            ps.execute();
-            try (ResultSet id = ps.getGeneratedKeys()) {
-                if (id.next()) {
-                    post.setId(id.getInt(1));
+
+    private void create(NewData newData) {
+        try (Connection cn = pool.getConnection()) {
+            if (newData.getClass().equals(Post.class)) {
+                PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name) VALUES (?)",
+                        PreparedStatement.RETURN_GENERATED_KEYS);
+                ps.setString(1, newData.getName());
+                ps.execute();
+                try (ResultSet id = ps.getGeneratedKeys()) {
+                    if (id.next()) {
+                        newData.setId(id.getInt(1));
+                    }
                 }
+            }
+            if (newData.getClass().equals(Candidate.class)) {
+                PreparedStatement ps = cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)",
+                        PreparedStatement.RETURN_GENERATED_KEYS);
+                ps.setString(1, newData.getName());
+                ps.execute();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return post;
     }
 
-    private boolean update(int id, Post post) {
+
+    private boolean update(int id, NewData newData) {
         boolean result = false;
-        try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("update post set name = ? where id = ? ",
-                     PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, post.getName());
-            ps.setInt(2, id);
-            result = ps.executeUpdate() > 0;
+        try (Connection cn = pool.getConnection()) {
+            if (newData.getClass().equals(Post.class)) {
+                PreparedStatement ps = cn.prepareStatement("update post set name = ? where id = ? ",
+                        PreparedStatement.RETURN_GENERATED_KEYS);
+                ps.setString(1, newData.getName());
+                ps.setInt(2, id);
+                result = ps.executeUpdate() > 0;
+            }
+            if (newData.getClass().equals(Candidate.class)) {
+                PreparedStatement ps = cn.prepareStatement("update post set name = ? where id = ? ",
+                        PreparedStatement.RETURN_GENERATED_KEYS);
+                ps.setString(1, newData.getName());
+                ps.setInt(2, id);
+                result = ps.executeUpdate() > 0;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,7 +143,7 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public Post findById(int id) {
+    public Post findByIdPost(int id) {
         Post rsl = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("select * from post where id = ? ",
@@ -133,6 +152,27 @@ public class PsqlStore implements Store {
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
                     rsl = new Post(
+                            resultSet.getInt("id"),
+                            resultSet.getString("name")
+                    );
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rsl;
+    }
+
+    @Override
+    public Candidate findByIdCandidate(int id) {
+        Candidate rsl = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("select * from candidate where id = ? ",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, id);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    rsl = new Candidate(
                             resultSet.getInt("id"),
                             resultSet.getString("name")
                     );

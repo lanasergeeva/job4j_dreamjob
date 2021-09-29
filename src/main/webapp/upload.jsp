@@ -34,7 +34,7 @@
         </tbody>
     </table>
     <h2>Upload image</h2>
-    <form action="<c:url value='/upload'/>" method="post" enctype="multipart/form-data">
+    <form action="<c:url value='/upload'/>" method="post" enctype="multipart/form-newData">
         <div class="checkbox">
             <input type="file" name="file">
         </div>
