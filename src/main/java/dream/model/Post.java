@@ -2,7 +2,7 @@ package dream.model;
 
 import java.util.Objects;
 
-public class Post implements NewData {
+public class Post {
     private int id;
     private String name;
 
@@ -11,27 +11,23 @@ public class Post implements NewData {
         this.name = name;
     }
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
+
     public String getName() {
         return name;
     }
 
-    @Override
     public void setId(int id) {
         this.id = id;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
     public String toString() {
         return "Post{"
                 + "id=" + id

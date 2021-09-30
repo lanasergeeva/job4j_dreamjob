@@ -2,7 +2,6 @@ package dream.store;
 
 import dream.model.Candidate;
 import dream.model.Post;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
