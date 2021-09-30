@@ -1,5 +1,5 @@
 <%@ page import="dream.model.Candidate" %>
-<%@ page import="dream.store.Store" %>
+<%@ page import="dream.store.PsqlStore" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <!doctype html>
@@ -29,11 +29,32 @@
     String id = request.getParameter("id");
     Candidate candidate = new Candidate(0, "");
     if (id != null) {
-        candidate = Store.instOf().findByIdCan(Integer.parseInt(id));
+        candidate = PsqlStore.instOf().findByIdCandidate(Integer.parseInt(id));
     }
 %>
 <div class="container pt-3">
     <div class="row">
+        <div class="row">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
+                </li>
+                <c:if test="${user != null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/logout.do">Выйти</a>
+                    </li>
+                </c:if>
+            </ul>
+        </div>
         <div class="card" style="width: 100%">
             <div class="card-header">
                 <% if (id == null) { %>
@@ -48,6 +69,13 @@
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
                     </div>
+                    <h5>Загрузите фото</h5>
+                    <form action="<c:url value='/upload'/>" method="post" enctype="multipart/form-newData">
+                        <div class="checkbox">
+                            <input type="file" name="file">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
             </div>
