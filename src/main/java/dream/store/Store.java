@@ -1,7 +1,6 @@
 package dream.store;
 
 import dream.model.Candidate;
-import dream.model.NewData;
 import dream.model.Post;
 
 import java.util.Collection;
@@ -11,7 +10,9 @@ public interface Store {
 
     Collection<Candidate> findAllCandidates();
 
-    void save(NewData newData);
+    void savePost(Post post);
+
+    void saveCandidate(Candidate candidate);
 
     Post findByIdPost(int id);
 

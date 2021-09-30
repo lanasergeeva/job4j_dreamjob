@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MemStore {
+public class MemStore implements Store {
 
     private static final AtomicInteger POSTID = new AtomicInteger(4);
     private static final MemStore INST = new MemStore();
@@ -28,33 +28,41 @@ public class MemStore {
         return INST;
     }
 
-    public Collection<Post> findAll() {
+    @Override
+    public Collection<Post> findAllPosts() {
         return posts.values();
     }
 
+    @Override
     public Collection<Candidate> findAllCandidates() {
         return candidates.values();
     }
 
-    public void save(Post post) {
-        if (post.getId() == 0) {
-            post.setId(POSTID.incrementAndGet());
-        }
-        posts.put(post.getId(), post);
-    }
 
-    public Post findById(int id) {
+    @Override
+    public Post findByIdPost(int id) {
         return posts.get(id);
     }
 
-    public void save(Candidate candidate) {
+    @Override
+    public Candidate findByIdCandidate(int id) {
+        return candidates.get(id);
+    }
+
+    @Override
+    public void saveCandidate(Candidate candidate) {
         if (candidate.getId() == 0) {
             candidate.setId(POSTID.incrementAndGet());
         }
         candidates.put(candidate.getId(), candidate);
     }
 
-    public Candidate findByIdCan(int id) {
-        return candidates.get(id);
+    @Override
+    public void savePost(Post post) {
+        if (post.getId() == 0) {
+            post.setId(POSTID.incrementAndGet());
+        }
+        posts.put(post.getId(), post);
     }
+
 }
