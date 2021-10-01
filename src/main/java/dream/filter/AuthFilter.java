@@ -6,9 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AuthFilter implements Filter {
-    @Override
-    public void init(FilterConfig filterConfig) {
-    }
 
     @Override
     public void doFilter(ServletRequest sreq, ServletResponse sresp, FilterChain chain) throws IOException, ServletException {
@@ -24,9 +21,5 @@ public class AuthFilter implements Filter {
             return;
         }
         chain.doFilter(sreq, sresp);
-    }
-
-    @Override
-    public void destroy() {
     }
 }
