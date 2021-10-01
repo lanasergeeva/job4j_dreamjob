@@ -148,11 +148,11 @@ public class PsqlStore implements Store {
     private boolean update(int id, Post post) {
         boolean result = false;
         try (Connection cn = pool.getConnection()) {
-                PreparedStatement ps = cn.prepareStatement("update post set name = ? where id = ? ",
-                        PreparedStatement.RETURN_GENERATED_KEYS);
-                ps.setString(1, post.getName());
-                ps.setInt(2, id);
-                result = ps.executeUpdate() > 0;
+            PreparedStatement ps = cn.prepareStatement("update post set name = ? where id = ? ",
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, post.getName());
+            ps.setInt(2, id);
+            result = ps.executeUpdate() > 0;
         } catch (Exception e) {
             LOG.error("Exception in update Post ", e);
         }
