@@ -2,32 +2,39 @@ package dream.model;
 
 import java.util.Objects;
 
-public class Candidate  {
+public class Candidate {
     private int id;
     private String name;
+    private String position;
 
-    public Candidate(int id, String name) {
+    public Candidate(int id, String name, String position) {
         this.id = id;
         this.name = name;
+        this.position = position;
     }
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
     }
 
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     @Override
@@ -39,20 +46,12 @@ public class Candidate  {
             return false;
         }
         Candidate candidate = (Candidate) o;
-        return id == candidate.id
-                && Objects.equals(name, candidate.name);
-    }
-
-    @Override
-    public String toString() {
-        return "Candidate{"
-                + "id=" + id
-                + ", name='" + name + '\''
-                + '}';
+        return id == candidate.id && Objects.equals(name, candidate.name) && Objects.equals(position, candidate.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, position);
     }
 }
+

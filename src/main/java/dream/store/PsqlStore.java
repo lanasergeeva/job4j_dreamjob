@@ -63,7 +63,9 @@ public class PsqlStore implements Store {
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    posts.add(new Post(it.getInt("id"), it.getString("name")));
+                    posts.add(new Post(it.getInt("id"),
+                            it.getString("name"),
+                            it.getString("description")));
                 }
             }
         } catch (Exception e) {
@@ -80,7 +82,9 @@ public class PsqlStore implements Store {
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    candidates.add(new Candidate(it.getInt("id"), it.getString("name")));
+                    candidates.add(new Candidate(it.getInt("id"),
+                            it.getString("name"),
+                            it.getString("position")));
                 }
             }
         } catch (Exception e) {
@@ -110,9 +114,10 @@ public class PsqlStore implements Store {
 
     private void create(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name) VALUES (?)",
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name, description) VALUES (?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, post.getName());
+            ps.setString(2, post.getText());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -128,9 +133,10 @@ public class PsqlStore implements Store {
 
     private void create(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)",
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidate(name, position) VALUES (?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, candidate.getName());
+            ps.setString(2, candidate.getPosition());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -148,10 +154,11 @@ public class PsqlStore implements Store {
     private boolean update(int id, Post post) {
         boolean result = false;
         try (Connection cn = pool.getConnection()) {
-            PreparedStatement ps = cn.prepareStatement("update post set name = ? where id = ? ",
+            PreparedStatement ps = cn.prepareStatement("update post set (name, description) = (?, ?) where id = ? ",
                     PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, post.getName());
-            ps.setInt(2, id);
+            ps.setString(2, post.getText());
+            ps.setInt(3, id);
             result = ps.executeUpdate() > 0;
         } catch (Exception e) {
             LOG.error("Exception in update Post ", e);
@@ -162,10 +169,11 @@ public class PsqlStore implements Store {
     private boolean update(int id, Candidate candidate) {
         boolean result = false;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("update candidate set name = ? where id = ? ",
+             PreparedStatement ps = cn.prepareStatement("update candidate set (name, position) = (?, ?) where id = ? ",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, candidate.getName());
-            ps.setInt(2, id);
+            ps.setString(2, candidate.getPosition());
+            ps.setInt(3, id);
             result = ps.executeUpdate() > 0;
         } catch (Exception e) {
             LOG.error("Exception in update Candidate ", e);
@@ -185,7 +193,8 @@ public class PsqlStore implements Store {
                 if (resultSet.next()) {
                     rsl = new Post(
                             resultSet.getInt("id"),
-                            resultSet.getString("name")
+                            resultSet.getString("name"),
+                            resultSet.getString("description")
                     );
                 }
             }
@@ -206,7 +215,8 @@ public class PsqlStore implements Store {
                 if (resultSet.next()) {
                     rsl = new Candidate(
                             resultSet.getInt("id"),
-                            resultSet.getString("name")
+                            resultSet.getString("name"),
+                            resultSet.getString("position")
                     );
                 }
             }
@@ -214,5 +224,29 @@ public class PsqlStore implements Store {
             LOG.error("Exception in findByIdCandidate ", e);
         }
         return rsl;
+    }
+
+    @Override
+    public void deleteCandidate(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement =
+                     cn.prepareStatement("delete from candidate where id = ?")) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deletePost(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement =
+                     cn.prepareStatement("delete from post where id = ?")) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

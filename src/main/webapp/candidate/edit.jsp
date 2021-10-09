@@ -25,13 +25,15 @@
     <title>Работа мечты</title>
 </head>
 <body>
+
 <%
     String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "");
+    Candidate candidate = new Candidate(0, "", "");
     if (id != null) {
         candidate = PsqlStore.instOf().findByIdCandidate(Integer.parseInt(id));
     }
 %>
+
 <div class="container pt-3">
     <div class="row">
         <div class="row">
@@ -68,14 +70,9 @@
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                        <label>Должность</label>
+                        <input type="text" class="form-control" name="position" value="<%=candidate.getPosition()%>">
                     </div>
-                    <h5>Загрузите фото</h5>
-                    <form action="<c:url value='/upload'/>" method="post" enctype="multipart/form-newData">
-                        <div class="checkbox">
-                            <input type="file" name="file">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
             </div>

@@ -50,23 +50,37 @@
         <div class="card" style="width: 100%">
 
             <div class="card-header">
-                Вакансии
+                <h3>Вакансии</h3>
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Названия</th>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Название</th>
+                        <th scope="col">Описание</th>
+                        <th scope="col">Редактировать</th>
+                        <th scope="col">Удалить</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${posts}" var="post">
                         <tr>
+                            <td><h5><c:out value="${post.id}"/></h5></td>
+                            <td><h5><c:out value="${post.name}"/></h5></td>
+                            <td>
+                                <c:out value="${post.text}"/>
+                            </td>
                             <td>
                                 <a href='<c:url value="/post/edit.jsp?id=${post.id}"/>'>
-                                    <i class="fa fa-edit mr-3"></i>
+                                    <i class="fa fa-edit mr-3 fa-2x"></i>
                                 </a>
-                                <c:out value="${post.name}"/>
+                            </td>
+                            <td>
+                                <a href='<c:url value='/deletePost.do?id=${post.id}'/>'>
+                                    <i class="fa fa-trash mr-3 fa-2x"></i>
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>

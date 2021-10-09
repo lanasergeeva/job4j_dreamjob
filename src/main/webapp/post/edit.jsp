@@ -27,13 +27,13 @@
 <body>
 <%
     String id = request.getParameter("id");
-    Post post = new Post(0, "");
+    Post post = new Post(0, "", "");
     if (id != null) {
         post = PsqlStore.instOf().findByIdPost(Integer.parseInt(id));
     }
 %>
-<div class="container pt-3">
 
+<div class="container pt-3">
     <div class="row">
         <div class="row">
             <ul class="nav">
@@ -69,6 +69,8 @@
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+                        <label>Описание вакансии</label>
+                        <input type="text" class="form-control" name="text" value="<%=post.getText()%>">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

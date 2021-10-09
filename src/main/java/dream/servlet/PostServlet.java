@@ -25,7 +25,8 @@ public class PostServlet extends HttpServlet {
         PsqlStore.instOf().savePost(
                 new Post(
                         Integer.parseInt(req.getParameter("id")),
-                        req.getParameter("name")
+                        req.getParameter("name"),
+                        req.getParameter("text")
                 )
         );
         resp.sendRedirect(req.getContextPath() + "/posts.do");

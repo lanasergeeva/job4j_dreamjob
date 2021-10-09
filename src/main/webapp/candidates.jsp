@@ -20,6 +20,9 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">
+
     <title>Работа мечты</title>
 </head>
 <body>
@@ -50,27 +53,51 @@
             </div>
             <div class="card" style="width: 100%">
                 <div class="card-header">
-                    Кандидаты
+                    <h3>Кандидаты</h3>
                 </div>
                 <div class="card-body">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th scope="col">Названия</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Имя</th>
+                            <th scope="col">Должность</th>
+                            <th scope="col">Фото кандидата</th>
+                            <th scope="col">Загрузить фото</th>
+                            <th scope="col">Удалить фото</th>
+                            <th scope="col">Редактировать кандидата</th>
+                            <th scope="col">Удалить кандидата</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${candidates}" var="can">
-                            <tr>
-                                <td>
-                                    <a href='<c:url value="/candidate/edit.jsp?id=${can.id}"/>'>
-                                        <i class="fa fa-edit mr-3"></i>
-                                    </a>
-                                    <c:out value="${can.name}"/>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <tr>
+                            <td><h5><c:out value="${can.id}"/></h5></td>
+                            <td><h5><c:out value="${can.name}"/></h5></td>
+                            <td><h5><c:out value="${can.position}"/></h5></td>
+                            <td><img src="<c:url value='/download.do?id=${can.id}'/>" width="200px" height="300px"/>
+                            </td>
+                            <td><a href="<c:url value='/photoupload.jsp?id=${can.id}'/>">
+                                <i class="fa fa fa-upload fa-2x ml-3"></i>
+                            </a>
+                            </td>
+                            <td><a href="<c:url value='/deletePhoto.do?id=${can.id}'/>">
+                                <i class="fa fa-times fa-2x ml-3"></i>
+                            </a>
+                            </td>
+                            <td>
+                                <a href='<c:url value="/candidate/edit.jsp?id=${can.id}"/>'>
+                                    <i class="fa fa-edit mr-3 fa-2x"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href='<c:url value='/deleteCan.do?id=${can.id}'/>'>
+                                    <i class="fa fa-trash mr-3 fa-2x"></i>
+                                </a>
+                            </td>
+                        <tbody>
                         </tbody>
+                        </c:forEach>
                     </table>
                 </div>
             </div>

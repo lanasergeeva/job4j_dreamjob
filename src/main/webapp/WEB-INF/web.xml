@@ -41,6 +41,18 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>dream.servlet.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteCandidateServlet</servlet-name>
+        <servlet-class>dream.servlet.DeleteCandidateServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeletePostServlet</servlet-name>
+        <servlet-class>dream.servlet.DeletePostServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeletePhotoCanServlet</servlet-name>
+        <servlet-class>dream.servlet.DeletePhotoCanServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>PostServlet</servlet-name>
@@ -56,11 +68,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UploadServlet</servlet-name>
-        <url-pattern>/upload</url-pattern>
+        <url-pattern>/upload.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DownloadServlet</servlet-name>
-        <url-pattern>/download</url-pattern>
+        <url-pattern>/download.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AuthServlet</servlet-name>
@@ -70,6 +82,19 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout.do</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteCandidateServlet</servlet-name>
+        <url-pattern>/deleteCan.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeletePostServlet</servlet-name>
+        <url-pattern>/deletePost.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeletePhotoCanServlet</servlet-name>
+        <url-pattern>/deletePhoto.do</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>
 
