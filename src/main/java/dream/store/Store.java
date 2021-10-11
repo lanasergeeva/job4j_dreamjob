@@ -2,6 +2,7 @@ package dream.store;
 
 import dream.model.Candidate;
 import dream.model.Post;
+import dream.model.User;
 
 import java.util.Collection;
 
@@ -21,4 +22,10 @@ public interface Store {
     void deletePost(int id);
 
     void deleteCandidate(int id);
+
+    void saveUser(User user);
+
+    User findByEmailUser(String name);
+
+
 }

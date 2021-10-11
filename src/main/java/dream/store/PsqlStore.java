@@ -1,5 +1,6 @@
 package dream.store;
 
+import dream.model.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 import dream.model.Candidate;
 import dream.model.Post;
@@ -111,6 +112,15 @@ public class PsqlStore implements Store {
         }
     }
 
+    @Override
+    public void saveUser(User user) {
+        if (user.getId() == 0) {
+            create(user);
+        } else {
+            update(user.getId(), user);
+        }
+    }
+
 
     private void create(Post post) {
         try (Connection cn = pool.getConnection();
@@ -150,6 +160,26 @@ public class PsqlStore implements Store {
         }
     }
 
+    private void create(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO users(name, email, password) VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            } catch (Exception e) {
+                LOG.error("Exception in create User ", e);
+            }
+        } catch (SQLException throwables) {
+            LOG.error("SQL Exception in create User ", throwables);
+        }
+    }
+
 
     private boolean update(int id, Post post) {
         boolean result = false;
@@ -181,6 +211,44 @@ public class PsqlStore implements Store {
         return result;
     }
 
+    private boolean update(int id, User user) {
+        boolean result = false;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("update users set (name, email, password) = (?, ?, ?) where id = ? ",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.setInt(4, id);
+            result = ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            LOG.error("Exception in update User ", e);
+        }
+        return result;
+    }
+
+    @Override
+    public User findByEmailUser(String name) {
+        User rsl = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("select * from users where email like ?",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, name);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    rsl = new User(
+                            resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("email"),
+                            resultSet.getString("password"
+                            ));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rsl;
+    }
 
     @Override
     public Post findByIdPost(int id) {

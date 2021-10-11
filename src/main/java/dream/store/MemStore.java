@@ -2,6 +2,7 @@ package dream.store;
 
 import dream.model.Candidate;
 import dream.model.Post;
+import dream.model.User;
 
 import java.util.Collection;
 import java.util.Map;
@@ -11,9 +12,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MemStore implements Store {
 
     private static final AtomicInteger POSTID = new AtomicInteger(4);
+    private static final AtomicInteger CANDID = new AtomicInteger(4);
+    private static final AtomicInteger USID = new AtomicInteger(4);
     private static final MemStore INST = new MemStore();
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
+    private final Map<Integer, User> users = new ConcurrentHashMap<>();
 
     private MemStore() {
         posts.put(1, new Post(1, "Junior Java Job", "Необходимо доработать несколько сервисов по товарной "
@@ -81,7 +85,6 @@ public class MemStore implements Store {
         return candidates.values();
     }
 
-
     @Override
     public Post findByIdPost(int id) {
         return posts.get(id);
@@ -93,9 +96,23 @@ public class MemStore implements Store {
     }
 
     @Override
+    public User findByEmailUser(String name) {
+        User rsl = null;
+        for (User user : users.values()) {
+            if (user.getEmail().equals(name)) {
+                rsl = user;
+                break;
+            }
+            return rsl;
+        }
+
+        return rsl;
+    }
+
+    @Override
     public void saveCandidate(Candidate candidate) {
         if (candidate.getId() == 0) {
-            candidate.setId(POSTID.incrementAndGet());
+            candidate.setId(CANDID.incrementAndGet());
         }
         candidates.put(candidate.getId(), candidate);
     }
@@ -106,6 +123,15 @@ public class MemStore implements Store {
             post.setId(POSTID.incrementAndGet());
         }
         posts.put(post.getId(), post);
+    }
+
+
+    @Override
+    public void saveUser(User user) {
+        if (user.getId() == 0) {
+            user.setId(USID.incrementAndGet());
+        }
+        users.put(user.getId(), user);
     }
 
     @Override
@@ -123,5 +149,4 @@ public class MemStore implements Store {
             posts.remove(id);
         }
     }
-
 }

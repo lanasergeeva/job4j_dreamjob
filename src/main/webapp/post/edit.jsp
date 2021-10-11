@@ -1,6 +1,7 @@
 <%@ page import="dream.model.Post" %>
 <%@ page import="dream.store.PsqlStore" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
 <!doctype html>
 <html lang="en">
@@ -51,7 +52,8 @@
                 </li>
                 <c:if test="${user != null}">
                     <li class="nav-item">
-                        <a class="nav-link" href="<%=request.getContextPath()%>/logout.do">Выйти</a>
+                        <a class="nav-link" href="<%=request.getContextPath()%>/logout.do"> <c:out
+                                value="${user.name}"/> | Выйти</a>
                     </li>
                 </c:if>
             </ul>

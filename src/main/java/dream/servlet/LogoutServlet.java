@@ -13,6 +13,6 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = req.getSession();
         session.invalidate();
-        resp.sendRedirect(req.getContextPath());
+        req.getRequestDispatcher("login.jsp").forward(req, resp);
     }
 }

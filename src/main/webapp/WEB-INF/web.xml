@@ -53,6 +53,10 @@
         <servlet-name>DeletePhotoCanServlet</servlet-name>
         <servlet-class>dream.servlet.DeletePhotoCanServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegServlet</servlet-name>
+        <servlet-class>dream.servlet.RegServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>PostServlet</servlet-name>
@@ -93,6 +97,10 @@
     <servlet-mapping>
         <servlet-name>DeletePhotoCanServlet</servlet-name>
         <url-pattern>/deletePhoto.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegServlet</servlet-name>
+        <url-pattern>/reg.do</url-pattern>
     </servlet-mapping>
 
 
