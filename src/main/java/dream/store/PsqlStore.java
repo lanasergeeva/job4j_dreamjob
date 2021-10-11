@@ -113,14 +113,13 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public void saveUser(User user) {
+    public void saveUser(User user) throws SQLException {
         if (user.getId() == 0) {
             create(user);
         } else {
             update(user.getId(), user);
         }
     }
-
 
     private void create(Post post) {
         try (Connection cn = pool.getConnection();
@@ -160,7 +159,7 @@ public class PsqlStore implements Store {
         }
     }
 
-    private void create(User user) {
+    private void create(User user) throws SQLException {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("INSERT INTO users(name, email, password) VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -175,8 +174,6 @@ public class PsqlStore implements Store {
             } catch (Exception e) {
                 LOG.error("Exception in create User ", e);
             }
-        } catch (SQLException throwables) {
-            LOG.error("SQL Exception in create User ", throwables);
         }
     }
 
@@ -245,7 +242,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception in findByEmailUser User ", e);
         }
         return rsl;
     }

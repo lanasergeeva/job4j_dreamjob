@@ -46,6 +46,8 @@
                         <input type="password" class="form-control" name="password">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary pull-right ml-4"
+                            formaction="<%=request.getContextPath()%>/login.jsp" formnovalidate>Войти в существующий аккаунт</button>
                     <c:if test="${not empty error}">
                         <div style="color:red; font-weight: bold; margin: 30px 0;">
                             <c:out value="${error}"/>

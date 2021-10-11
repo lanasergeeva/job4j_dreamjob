@@ -103,9 +103,7 @@ public class MemStore implements Store {
                 rsl = user;
                 break;
             }
-            return rsl;
         }
-
         return rsl;
     }
 

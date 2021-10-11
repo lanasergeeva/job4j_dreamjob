@@ -4,6 +4,7 @@ import dream.model.Candidate;
 import dream.model.Post;
 import dream.model.User;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 public interface Store {
@@ -23,7 +24,7 @@ public interface Store {
 
     void deleteCandidate(int id);
 
-    void saveUser(User user);
+    void saveUser(User user) throws SQLException;
 
     User findByEmailUser(String name);
 

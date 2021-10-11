@@ -28,7 +28,7 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Авторизация
+                <h4>Авторизация</h4>
             </div>
             <div class="card-body">
                 <form action="<%=request.getContextPath()%>/auth.do" method="post">
@@ -41,7 +41,7 @@
                             <input type="password" class="form-control" name="password">
                     </div>
                     <button type="submit" class="btn btn-primary pull-left">Войти</button>
-                    <button type="submit" class="btn btn-primary pull-right m1-2"
+                    <button type="submit" class="btn btn-primary pull-right ml-4"
                             formaction="<%=request.getContextPath()%>/reg.jsp" formnovalidate>Регистрация</button>
                     <c:if test="${not empty error}">
                         <div style="color:red; font-weight: bold; margin: 30px 0;">
