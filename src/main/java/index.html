@@ -30,6 +30,19 @@
             }
             return rsl;
         }
+
+        function addRow() {
+            const name = $('#exampleInputName').val();
+            const sur = $('#exampleInputSurname').val();
+            const sex = $('#exampleInputMale').val();
+            const desc = $('#exampleInputDescription').val();
+            $('#table tr:last').after('<tr>'
+                + '<td>' + name + '</td>'
+                + '<td>' + sur + '</td>'
+                + '<td>' + sex + '</td>'
+                + '<td>' + desc + '</td>'
+                + '</tr>');
+        }
     </script>
 </head>
 
@@ -80,10 +93,9 @@
 <div class="container-table mt-10" style="width: 80rem; display: block;
     margin-left: auto;
     margin-right: auto">
-    <table class="table table-striped">
+    <table class="table table-striped" id="table">
         <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">
                 <h3>Name</h3>
             </th>
@@ -100,21 +112,18 @@
         </thead>
         <tbody>
         <tr>
-            <th scope="row">1</th>
             <td>Mark</td>
             <td>Otto</td>
             <td>Male</td>
             <td>Nice man</td>
         </tr>
         <tr>
-            <th scope="row">2</th>
             <td>Jacob</td>
             <td>Thornton</td>
             <td>Male</td>
             <td>Thief</td>
         </tr>
         <tr>
-            <th scope="row">3</th>
             <td>George</td>
             <td>Carlin</td>
             <td>Male</td>
@@ -122,6 +131,7 @@
         </tr>
         </tbody>
     </table>
+    <button type="reset" class="btn btn-default" onclick="addRow()">Add row</button>
 </div>
 </div>
 </body>
