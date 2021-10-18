@@ -1,5 +1,6 @@
 package dream.store;
 
+import dream.model.City;
 import dream.model.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 import dream.model.Candidate;
@@ -56,6 +57,25 @@ public class PsqlStore implements Store {
         return Lazy.INST;
     }
 
+
+    @Override
+    public Collection<City> findCities() {
+        List<City> city = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM city")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    city.add(new City(it.getInt("id"),
+                            it.getString("name")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception in findCities ", e);
+        }
+        return city;
+    }
+
     @Override
     public Collection<Post> findAllPosts() {
         List<Post> posts = new ArrayList<>();
@@ -76,16 +96,63 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public Collection<Candidate> findAllCandidates() {
-        List<Candidate> candidates = new ArrayList<>();
+    public Collection<Post> findAllPostsInDay() {
+        List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate")
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM post where create_date between now()- interval '1 DAY' and now()")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    candidates.add(new Candidate(it.getInt("id"),
+                    posts.add(new Post(it.getInt("id"),
                             it.getString("name"),
-                            it.getString("position")));
+                            it.getString("description")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception in findAllPosts ", e);
+        }
+        return posts;
+    }
+
+    @Override
+    public Collection<Candidate> findAllCandidatesInDay() {
+        List<Candidate> candidates = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("select c.id as id_can, cy.id as id_cy, c.name as can_name, cy.name as cy_name, c.position\n"
+                     + "from candidate c \n"
+                     + "join city cy\n"
+                     + "on c.city_id = cy.id\n"
+                     + "where create_date between now()- interval '1 DAY' and now()")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    candidates.add(new Candidate(it.getInt("id_can"),
+                            it.getString("can_name"),
+                            it.getString("position"),
+                            new City(Integer.parseInt(it.getString("id_cy")), it.getString("cy_name"))));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception in findAllCandidatesInDay ", e);
+        }
+        return candidates;
+    }
+
+    @Override
+    public Collection<Candidate> findAllCandidates() {
+        List<Candidate> candidates = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("select c.id as id_can, cy.id as id_cy, c.name as can_name, cy.name as cy_name, c.position\n"
+                     + "from candidate c \n"
+                     + "join city cy\n"
+                     + "on c.city_id = cy.id")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    candidates.add(new Candidate(it.getInt("id_can"),
+                            it.getString("can_name"),
+                            it.getString("position"),
+                            new City(Integer.parseInt(it.getString("id_cy")), it.getString("cy_name"))));
                 }
             }
         } catch (Exception e) {
@@ -142,10 +209,11 @@ public class PsqlStore implements Store {
 
     private void create(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidate(name, position) VALUES (?, ?)",
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidate(name, position, city_id) VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getPosition());
+            ps.setInt(3, candidate.getCity().getId());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -281,7 +349,8 @@ public class PsqlStore implements Store {
                     rsl = new Candidate(
                             resultSet.getInt("id"),
                             resultSet.getString("name"),
-                            resultSet.getString("position")
+                            resultSet.getString("position"),
+                            new City(Integer.parseInt(resultSet.getString("city_id")))
                     );
                 }
             }

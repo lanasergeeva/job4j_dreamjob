@@ -23,6 +23,26 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+
+    <script>
+        function validate() {
+            var rsl = true;
+            if ($('#inputName').val() === '') {
+                alert($('#inputName').attr('title'));
+                rsl = false;
+
+            }
+            if ($('#inputDesc').val() === '') {
+                alert($('#inputDesc').attr('title'));
+                rsl = false;
+            }
+
+            return rsl;
+        }
+    </script>
+
     <title>Работа мечты</title>
 </head>
 <body>
@@ -70,11 +90,13 @@
                 <form action="<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+                        <input type="text" class="form-control" name="name" title="Enter name of position."
+                               value="<%=post.getName()%>" id="inputName">
                         <label>Описание вакансии</label>
-                        <input type="text" class="form-control" name="text" value="<%=post.getText()%>">
+                        <input type="text" class="form-control" name="text" title="Enter description of position."
+                               value="<%=post.getText()%>" id="inputDesc">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate();">Сохранить</button>
                 </form>
             </div>
         </div>

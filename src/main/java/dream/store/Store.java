@@ -1,6 +1,7 @@
 package dream.store;
 
 import dream.model.Candidate;
+import dream.model.City;
 import dream.model.Post;
 import dream.model.User;
 
@@ -11,6 +12,12 @@ public interface Store {
     Collection<Post> findAllPosts();
 
     Collection<Candidate> findAllCandidates();
+
+    Collection<Candidate> findAllCandidatesInDay();
+
+    Collection<Post> findAllPostsInDay();
+
+    Collection<City> findCities();
 
     void savePost(Post post);
 

@@ -29,6 +29,9 @@
         <div class="row">
             <ul class="nav">
                 <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Сегодня</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
                 </li>
                 <li class="nav-item">
@@ -51,7 +54,7 @@
         <div class="card" style="width: 100%">
 
             <div class="card-header">
-                <h3>Вакансии</h3>
+                <h4>Вакансии</h4>
             </div>
             <div class="card-body">
                 <table class="table">
@@ -68,8 +71,8 @@
                     <tbody>
                     <c:forEach items="${posts}" var="post">
                         <tr>
-                            <td><h5><c:out value="${post.id}"/></h5></td>
-                            <td><h5><c:out value="${post.name}"/></h5></td>
+                            <td><c:out value="${post.id}"/></td>
+                            <td><c:out value="${post.name}"/></td>
                             <td>
                                 <c:out value="${post.text}"/>
                             </td>

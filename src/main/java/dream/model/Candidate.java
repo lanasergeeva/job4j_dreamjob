@@ -6,12 +6,22 @@ public class Candidate {
     private int id;
     private String name;
     private String position;
+    private City city;
+
 
     public Candidate(int id, String name, String position) {
         this.id = id;
         this.name = name;
         this.position = position;
     }
+
+    public Candidate(int id, String name, String position, City city) {
+        this.id = id;
+        this.name = name;
+        this.position = position;
+        this.city = city;
+    }
+
 
     public int getId() {
         return id;
@@ -37,6 +47,15 @@ public class Candidate {
         this.position = position;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -60,6 +79,7 @@ public class Candidate {
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", position='" + position + '\''
+                + ", city=" + city
                 + '}';
     }
 }

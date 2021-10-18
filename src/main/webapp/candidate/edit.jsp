@@ -1,5 +1,6 @@
 <%@ page import="dream.model.Candidate" %>
 <%@ page import="dream.store.PsqlStore" %>
+<%@ page import="dream.model.City" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!doctype html>
@@ -22,17 +23,55 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <%
+        String id = request.getParameter("id");
+        Candidate candidate = new Candidate(0, "", "", new City(0));
+        if (id != null) {
+            candidate = PsqlStore.instOf().findByIdCandidate(Integer.parseInt(id));
+        }
+    %>
+
+    <script>
+        function validate() {
+            var rsl = true;
+            if ($('#inputName').val() === '') {
+                alert($('#inputName').attr('title'));
+                rsl = false;
+
+            }
+            if ($('#inputPosition').val() === '') {
+                alert($('#inputPosition').attr('title'));
+                rsl = false;
+            }
+            return rsl;
+        }
+
+        $(document).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/dreamjob/city',
+                dataType: 'json'
+            }).done(function (data) {
+                for (var city of data) {
+                    city.id === <%=candidate.getCity().getId()%>;
+                    $('#city').append($('<option>', {
+                        value: city.id,
+                        text: city.city,
+                    }));
+                }
+            }).fail(function (err) {
+                console.log(err);
+            });
+        });
+
+    </script>
     <title>Работа мечты</title>
 </head>
 <body>
 
-<%
-    String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "", "");
-    if (id != null) {
-        candidate = PsqlStore.instOf().findByIdCandidate(Integer.parseInt(id));
-    }
-%>
 
 <div class="container pt-3">
     <div class="row">
@@ -70,11 +109,18 @@
                 <form action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                        <input type="text" class="form-control" title="Enter user name."
+                               name="name" value="<%=candidate.getName()%>" id="inputName">
                         <label>Должность</label>
-                        <input type="text" class="form-control" name="position" value="<%=candidate.getPosition()%>">
+                        <input type="text" class="form-control" title="Enter position."
+                               name="position" value="<%=candidate.getPosition()%>" id="inputPosition">
+
+                        <label for="city" style="font-weight: bold">Выберите город</label>
+                        <select class="form-control" id="city" name="city_id">
+                        </select>
+
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate();">Сохранить</button>
                 </form>
             </div>
         </div>

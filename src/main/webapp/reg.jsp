@@ -20,6 +20,29 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+        function validate() {
+            var rsl = true;
+            if ($('#inputName').val() === '') {
+                alert($('#inputName').attr('title'));
+                rsl = false;
+
+            }
+            if ($('#inputEmail').val() === '') {
+                alert($('#inputEmail').attr('title'));
+                rsl = false;
+            }
+            if ($('#inputPass').val() === '') {
+                alert($('#inputPass').attr('title'));
+                rsl = false;
+            }
+            return rsl;
+        }
+    </script>
+
 
     <title>Работа мечты</title>
 </head>
@@ -35,19 +58,24 @@
                 <form action="<%=request.getContextPath()%>/reg.do" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" >
+                        <input type="text" class="form-control" name="name"
+                               title="Enter you name" id="inputName">
                     </div>
                     <div class="form-group">
                         <label>Почта</label>
-                        <input type="text" class="form-control" name="email">
+                        <input type="text" class="form-control" name="email"
+                               title="Enter you email" id="inputEmail">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                        <input type="password" class="form-control" name="password">
+                        <input type="password" class="form-control" name="password"
+                               title="Enter you password" id="inputPass">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary"onclick="return validate();">Сохранить</button>
                     <button type="submit" class="btn btn-primary pull-right ml-4"
-                            formaction="<%=request.getContextPath()%>/login.jsp" formnovalidate>Войти в существующий аккаунт</button>
+                            formaction="<%=request.getContextPath()%>/login.jsp" formnovalidate>Войти в существующий
+                        аккаунт
+                    </button>
                     <c:if test="${not empty error}">
                         <div style="color:red; font-weight: bold; margin: 30px 0;">
                             <c:out value="${error}"/>

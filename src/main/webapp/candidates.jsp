@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!doctype html>
 <html lang="en">
@@ -32,6 +32,9 @@
             <div class="row">
                 <ul class="nav">
                     <li class="nav-item">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Сегодня</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
                     </li>
                     <li class="nav-item">
@@ -54,7 +57,7 @@
             </div>
             <div class="card" style="width: 100%">
                 <div class="card-header">
-                    <h3>Кандидаты</h3>
+                    <h4>Кандидаты</h4>
                 </div>
                 <div class="card-body">
                     <table class="table">
@@ -63,6 +66,7 @@
                             <th scope="col">ID</th>
                             <th scope="col">Имя</th>
                             <th scope="col">Должность</th>
+                            <th scope="col">Город</th>
                             <th scope="col">Фото кандидата</th>
                             <th scope="col">Загрузить фото</th>
                             <th scope="col">Удалить фото</th>
@@ -73,10 +77,11 @@
                         <tbody>
                         <c:forEach items="${candidates}" var="can">
                         <tr>
-                            <td><h5><c:out value="${can.id}"/></h5></td>
-                            <td><h5><c:out value="${can.name}"/></h5></td>
-                            <td><h5><c:out value="${can.position}"/></h5></td>
-                            <td><img src="<c:url value='/download.do?id=${can.id}'/>" width="200px" height="300px"/>
+                            <td><c:out value="${can.id}"/></td>
+                            <td><c:out value="${can.name}"/></td>
+                            <td><c:out value="${can.position}"/></td>
+                            <td><c:out value="${can.city.city}"/></td>
+                            <td><img src="<c:url value='/download.do?id=${can.id}'/>" width="200px" height="150px"/>
                             </td>
                             <td><a href="<c:url value='/photoupload.jsp?id=${can.id}'/>">
                                 <i class="fa fa fa-upload fa-2x ml-3"></i>

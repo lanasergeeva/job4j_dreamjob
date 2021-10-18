@@ -1,6 +1,7 @@
 package dream.servlet;
 
 import dream.model.Candidate;
+import dream.model.City;
 import dream.store.PsqlStore;
 
 import javax.servlet.ServletException;
@@ -23,9 +24,9 @@ public class CandidateServlet extends HttpServlet {
                 new Candidate(
                         Integer.parseInt(req.getParameter("id")),
                         req.getParameter("name"),
-                        req.getParameter("position")
-                )
-        );
+                        req.getParameter("position"),
+                        new City(Integer.parseInt(req.getParameter("city_id"))
+                        )));
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 }
