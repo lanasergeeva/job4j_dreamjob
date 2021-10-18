@@ -116,13 +116,12 @@ public class PsqlStore implements Store {
 
     @Override
     public Collection<Candidate> findAllCandidatesInDay() {
+        String selectStr2 = "select c.id as id_can, cy.id as id_cy, c.name as can_name, cy.name as cy_name, c.position "
+                + "from candidate c join city cy on c.city_id = cy.id "
+                + "where create_date between now() - interval '1 DAY' and now()";
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("select c.id as id_can, cy.id as id_cy, c.name as can_name, cy.name as cy_name, c.position\n"
-                     + "from candidate c \n"
-                     + "join city cy\n"
-                     + "on c.city_id = cy.id\n"
-                     + "where create_date between now()- interval '1 DAY' and now()")
+             PreparedStatement ps = cn.prepareStatement(selectStr2)
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -140,12 +139,11 @@ public class PsqlStore implements Store {
 
     @Override
     public Collection<Candidate> findAllCandidates() {
+        String selectStr = "select c.id as id_can, cy.id as id_cy, c.name as can_name, "
+                + "cy.name as cy_name, c.position from candidate c join city cy on c.city_id = cy.id";
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("select c.id as id_can, cy.id as id_cy, c.name as can_name, cy.name as cy_name, c.position\n"
-                     + "from candidate c \n"
-                     + "join city cy\n"
-                     + "on c.city_id = cy.id")
+             PreparedStatement ps = cn.prepareStatement(selectStr)
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
