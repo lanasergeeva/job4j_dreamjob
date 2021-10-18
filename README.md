@@ -4,34 +4,34 @@
 
 [![codecov](https://codecov.io/gh/lanasergeeva/job4j_dreamjob/branch/master/graph/badge.svg?token=B7WQ471USN)](https://codecov.io/gh/lanasergeeva/job4j_dreamjob)
 
-![ScreenShot](C:\projects\mvn_project\job4j_dreamjob\src\main\java\dream\img\log1.jpg)
+![alt text](https://github.com/lanasergeeva/job4j_dreamjob/blob/master/src/main/java/dream/img/log1.jpg)
 Приложение доступно только для зарегистрированных пользователей. Поэтому сначала нужно пройти процесси авторизации или зарегистрироваться.
 В случае ввода неверных данных поля зачистятся и будет выдана ошибка.
 
-![ScreenShot](C:\projects\mvn_project\job4j_dreamjob\src\main\java\dream\img\valauth.jpg)
+![alt text](https://github.com/lanasergeeva/job4j_dreamjob/blob/master/src/main/java/dream/img/valauth.jpg)
 
-![ScreenShot](C:\projects\mvn_project\job4j_dreamjob\src\main\java\dream\img\auth1.jpg)
+![alt text](https://github.com/lanasergeeva/job4j_dreamjob/blob/master/src/main/java/dream/img/auth1.jpg)
 
-При регистрации пользователя каждое поле проверяется на валидность. 
+При регистрации пользователя каждое поле проверяется на валидность.
 В случае успешной регристрации кнопка "Сохранить" перенаправит на страницу авторизации.
 
-![ScreenShot](C:\projects\mvn_project\job4j_dreamjob\src\main\java\dream\img\today.jpg)
+![alt text](https://github.com/lanasergeeva/job4j_dreamjob/blob/master/src/main/java/dream/img/today.jpg)
 После прохождения авторизации мы попадаем на стартовую страницу "Сегодня" с вакансиями и кандитами, которые были добавлены сегодня.
 
-![ScreenShot](C:\projects\mvn_project\job4j_dreamjob\src\main\java\dream\img\job.jpg)
-По ссылке "Вакансии" мы можем посмотреть все вакансии, а также отредактровать их или удалить. 
+![alt text](https://github.com/lanasergeeva/job4j_dreamjob/blob/master/src/main/java/dream/img/today.jpg)
+По ссылке "Вакансии" мы можем посмотреть все вакансии, а также отредактровать их или удалить.
 
-![alt text](C:\projects\mvn_project\job4j_dreamjob\src\main\java\dream\img\cand.jpg)
+![alt text](https://github.com/lanasergeeva/job4j_dreamjob/blob/master/src/main/java/dream/img/cand.jpg)
 По ссылке "Кандидаты" мы можем посмотреть всех кандидатов, а также добавить фото, удалить фото, редактировать кандидата и удалить кандидата.
 Если фото у кандидата нет, то ему будет дано изображение по умолчанию.
-![ScreenShot](C:\projects\mvn_project\job4j_dreamjob\src\main\java\dream\img\anon.jpg)
+![alt text](https://github.com/lanasergeeva/job4j_dreamjob/blob/master/src/main/java/dream/img/anon.jpg)
 
-![ScreenShot](C:\projects\mvn_project\job4j_dreamjob\src\main\java\dream\img\addjob.jpg)
-При добавлении вакансии поля проверяются на валидность. Если поле останется незаполненным, 
+![alt text](https://github.com/lanasergeeva/job4j_dreamjob/blob/master/src/main/java/dream/img/addjob.jpg)
+При добавлении вакансии поля проверяются на валидность. Если поле останется незаполненным,
 то будет показана таблица.
-![ScreenShot](C:\projects\mvn_project\job4j_dreamjob\src\main\java\dream\img\valjob.jpg)
+![alt text](https://github.com/lanasergeeva/job4j_dreamjob/blob/master/src/main/java/dream/img/valjob.jpg)
 
 
-![ScreenShot](C:\projects\mvn_project\job4j_dreamjob\src\main\java\dream\img\addcand.jpg)
+![alt text](https://github.com/lanasergeeva/job4j_dreamjob/blob/master/src/main/java/dream/img/addcand.jpg)
 При доабвлении нового кандидата поля также проверяются на валидность, а город можно выбрать из списка предложенных городов.
 
