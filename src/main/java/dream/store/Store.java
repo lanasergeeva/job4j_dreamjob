@@ -7,6 +7,7 @@ import dream.model.User;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 public interface Store {
     Collection<Post> findAllPosts();
@@ -21,6 +22,8 @@ public interface Store {
 
     void savePost(Post post);
 
+    void saveCity(City city);
+
     void saveCandidate(Candidate candidate);
 
     Post findByIdPost(int id);
@@ -34,6 +37,10 @@ public interface Store {
     void saveUser(User user) throws SQLException;
 
     User findByEmailUser(String name);
+
+    List<Post> findByNamePost(String name);
+
+    List<Candidate> findByNameCandidate(String name);
 
 
 }

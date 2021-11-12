@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,15 +22,18 @@ import java.util.Properties;
 
 
 public class PsqlStore implements Store {
+    private static final PsqlStore INSTANCE = new PsqlStore();
 
     private static final Logger LOG = LoggerFactory.getLogger(PsqlStore.class.getName());
-
     private final BasicDataSource pool = new BasicDataSource();
 
     private PsqlStore() {
         Properties cfg = new Properties();
         try (BufferedReader io = new BufferedReader(
-                new FileReader("C:\\projects\\mvn_project\\job4j_dreamjob\\db.properties")
+                new InputStreamReader(
+                        PsqlStore.class.getClassLoader()
+                                .getResourceAsStream("db.properties")
+                )
         )) {
             cfg.load(io);
         } catch (Exception e) {
@@ -48,6 +52,7 @@ public class PsqlStore implements Store {
         pool.setMaxIdle(10);
         pool.setMaxOpenPreparedStatements(100);
     }
+
 
     private static final class Lazy {
         private static final Store INST = new PsqlStore();
@@ -169,6 +174,13 @@ public class PsqlStore implements Store {
     }
 
     @Override
+    public void saveCity(City city) {
+        if (city.getId() == 0) {
+            create(city);
+        }
+    }
+
+    @Override
     public void saveCandidate(Candidate candidate) {
         if (candidate.getId() == 0) {
             create(candidate);
@@ -240,6 +252,24 @@ public class PsqlStore implements Store {
             } catch (Exception e) {
                 LOG.error("Exception in create User ", e);
             }
+        }
+    }
+
+    private void create(City city) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO city(name) VALUES (?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, city.getCity());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    city.setId(id.getInt(1));
+                }
+            } catch (Exception e) {
+                LOG.error("Exception in create City ", e);
+            }
+        } catch (SQLException throwables) {
+            LOG.error("SQLException in create City ", throwables);
         }
     }
 
@@ -336,6 +366,29 @@ public class PsqlStore implements Store {
     }
 
     @Override
+    public List<Post> findByNamePost(String name) {
+        List<Post> rsl = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("select * from post where name = ? ",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, name);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    rsl.add(new Post(
+                            resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("description")
+                    ));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception in findByIdPost ", e);
+        }
+        return rsl;
+    }
+
+
+    @Override
     public Candidate findByIdCandidate(int id) {
         Candidate rsl = null;
         try (Connection cn = pool.getConnection();
@@ -350,6 +403,29 @@ public class PsqlStore implements Store {
                             resultSet.getString("position"),
                             new City(Integer.parseInt(resultSet.getString("city_id")))
                     );
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception in findByIdCandidate ", e);
+        }
+        return rsl;
+    }
+
+    @Override
+    public List<Candidate> findByNameCandidate(String name) {
+        List<Candidate>  rsl = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("select * from candidate where name = ? ",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, name);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    rsl.add(new Candidate(
+                            resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("position"),
+                            new City(Integer.parseInt(resultSet.getString("city_id")))
+                    ));
                 }
             }
         } catch (Exception e) {

@@ -5,10 +5,7 @@ import dream.model.City;
 import dream.model.Post;
 import dream.model.User;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -25,6 +22,16 @@ public class MemStore implements Store {
 
     public static MemStore instOf() {
         return INST;
+    }
+
+    @Override
+    public List<Candidate> findByNameCandidate(String name) {
+        return null;
+    }
+
+    @Override
+    public List<Post> findByNamePost(String name) {
+        return null;
     }
 
     @Override
@@ -51,6 +58,11 @@ public class MemStore implements Store {
     @Override
     public Collection<City> findCities() {
         return cities;
+    }
+
+    @Override
+    public void saveCity(City city) {
+
     }
 
     @Override
