@@ -1,8 +1,5 @@
 package dream;
 
-import dream.model.Candidate;
-import dream.model.Post;
-import dream.model.User;
 import dream.store.PsqlStore;
 import dream.store.Store;
 

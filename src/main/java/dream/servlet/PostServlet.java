@@ -1,6 +1,8 @@
 package dream.servlet;
 
+import dream.model.City;
 import dream.model.Post;
+import dream.model.User;
 import dream.store.PsqlStore;
 
 import javax.servlet.ServletException;
@@ -21,14 +23,18 @@ public class PostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        User user = null;
+        if (req.getSession() != null) {
+            user = (User) req.getSession().getAttribute("user");
+        }
         req.setCharacterEncoding("UTF-8");
         PsqlStore.instOf().savePost(
                 new Post(
                         Integer.parseInt(req.getParameter("id")),
                         req.getParameter("name"),
-                        req.getParameter("text")
-                )
-        );
+                        req.getParameter("text"),
+                        new City(Integer.parseInt(req.getParameter("city_id"))),
+                        user));
         resp.sendRedirect(req.getContextPath() + "/posts.do");
     }
 }

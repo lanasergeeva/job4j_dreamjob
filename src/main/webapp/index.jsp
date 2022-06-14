@@ -11,15 +11,15 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
+    <%--  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+              integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+              crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+              integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+              crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+              integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+              crossorigin="anonymous"></script>--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">
@@ -28,11 +28,14 @@
     <title>Работа мечты</title>
 </head>
 <body>
-<div class="container pt-3">
-    <div class="row">
-        <ul class="nav">
+
+
+<div class="container bg-light" style="background-color: #e3f2fd;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary text-white justify-content-center"
+         aria-label="Twelfth navbar example">
+        <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Сегодня</a>
+                <a class="nav-link active" href="<%=request.getContextPath()%>/index.do">Сегодня</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
@@ -41,10 +44,14 @@
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/my">Мои публикации</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить
+                    кандидата</a>
             </li>
             <c:if test="${user != null}">
                 <li class="nav-item">
@@ -53,70 +60,64 @@
                 </li>
             </c:if>
         </ul>
-    </div>
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header">
-                Сегодняшние вакансии.
-            </div>
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Название</th>
-                        <th scope="col">Описание</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${posts}" var="post">
-                        <tr>
-                            <td><c:out value="${post.id}"/></td>
-                            <td><c:out value="${post.name}"/></td>
-                            <td>
-                                <c:out value="${post.text}"/>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+    </nav>
+
+
+    <div class="card" style="width: 100%; background-color: #e3f2fd;">
+        <div class="card-header d-flex justify-content-center">
+            <h6>Сегодняшние вакансии. </h6>
         </div>
+        <table class="table table-bordered">
+            <tr>
+                <th scope="col" style="text-align: center; width: 120px">Дата</th>
+                <th scope="col" style="text-align: center;">Город</th>
+                <th scope="col" style="text-align: center;">Название</th>
+                <th scope="col" style="text-align: center;">Описание</th>
+                <th scope="col" style="text-align: center;">Автор</th>
+            </tr>
+            <tbody>
+            <c:forEach items="${posts}" var="post">
+                <tr>
+                    <td class="align-middle" style="text-align: center;">
+                        <p><c:out value="${post.date}"/></p></td>
+                    <td class="align-middle" style="text-align: center;"><c:out value="${post.city.city}"/></td>
+                    <td class="align-middle" style="text-align: center;"><c:out value="${post.name}"/></td>
+                    <td class="align-middle" style="text-align: center;"><c:out value="${post.text}"/></td>
+                    <td class="align-middle" style="text-align: center;"><c:out value="${post.user.name}"/></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
 
-    <div class="row pt-3">
-        <div class="card" style="width: 100%">
-            <div class="card-header">
-                Сегодняшние кандидаты.
-            </div>
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Имя</th>
-                        <th scope="col">Должность</th>
-                        <th scope="col">Город</th>
-                        <th scope="col">Фото кандидата</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${candidates}" var="can">
-                    <tr>
-                        <td><c:out value="${can.id}"/></td>
-                        <td><c:out value="${can.name}"/></td>
-                        <td><c:out value="${can.position}"/></td>
-                        <td><c:out value="${can.city.city}"/></td>
-                        <td><img src="<c:url value='/download.do?id=${can.id}'/>" width="200px" height="150px"/>
-                        </td>
-                    </tr>
-                    <tbody>
-                    </tbody>
-                    </c:forEach>
-            </div>
+
+    <div class="card" style="width: 100%; background-color: #e3f2fd;">
+        <div class="card-header d-flex justify-content-center">
+            <h6>Сегодняшние кандидаты.</h6>
         </div>
+        <table class="table table table-bordered">
+            <tr>
+                <th class="align-middle" style="text-align: center; width: 100px" scope="col">Дата</th>
+                <th class="align-middle" style="text-align: center;" scope="col">Город</th>
+                <th class="align-middle" style="text-align: center;" scope="col">Имя</th>
+                <th class="align-middle" style="text-align: center;" scope="col">Должность</th>
+                <th class="align-middle" style="text-align: center; width: 40%" scope="col">Навыки</th>
+                <th class="align-middle" style="text-align: center;" scope="col">Фото кандидата</th>
+            </tr>
+            <c:forEach items="${candidates}" var="can">
+            <tr>
+                <td class="align-middle" style="text-align: center;  width: 120px"><c:out value="${can.date}"/></td>
+                <td class="align-middle" style="text-align: center;"><c:out value="${can.city.city}"/></td>
+                <td class="align-middle" style="text-align: center;"><c:out value="${can.name}"/></td>
+                <td class="align-middle" style="text-align: center;"><c:out value="${can.position}"/></td>
+                <td class="align-middle" style="text-align: center;"><c:out value="${can.skills}"/></td>
+                <td class="align-middle"><img src="<c:url value='/download.do?id=${can.id}'/>" width="160px"
+                                              height="150px"/>
+                </td>
+                </c:forEach>
+        </table>
     </div>
 </div>
+
 </body>
 </html>

@@ -1,7 +1,7 @@
-create TABLE users
+create TABLE if not exists users
 (
     id       SERIAL PRIMARY KEY,
-    name     TEXT,
-    email    TEXT unique,
-    password TEXT
+    name     varchar(250),
+    email    varchar(250) unique,
+    password varchar(250)
 );

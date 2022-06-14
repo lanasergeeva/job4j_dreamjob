@@ -1,5 +1,6 @@
 <%@ page import="dream.model.Candidate" %>
-<%@ page import="dream.store.PsqlStore" %><%--
+<%@ page import="dream.store.PsqlStore" %>
+<%@ page import="dream.model.City" %><%--
   Created by IntelliJ IDEA.
   User: Lana
   Date: 08.10.2021
@@ -21,21 +22,34 @@
 <body>
 <%
     String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "", "");
+    Candidate candidate = new Candidate(0, "", "", "", new City(0));
     if (id != null) {
         candidate = PsqlStore.instOf().findByIdCandidate(Integer.parseInt(id));
     }
 %>
 
-<div class="container">
-    <h2>Загрузка фото</h2>
-    <form action="<%=request.getContextPath()%>/upload.do?id=<%=candidate.getId()%>" method="post"
-          enctype="multipart/form-data">
-        <div class="checkbox">
-            <input type="file" name="file"/>
+<div class="container bg-light " style="background-color: #e3f2fd; width: 500px">
+    <div class="card" style="background-color: #e3f2fd;">
+        <div class="card-body" style="text-align: center">
+            <br>
+            <br>
+            <br>
+            <br>
+            <h3>Загрузка фото</h3>
+            <br>
+            <form action="<%=request.getContextPath()%>/upload.do?id=<%=candidate.getId()%>" method="post"
+                  enctype="multipart/form-data">
+                <div class="form-group" style="display: flex; justify-content: center;">
+                    <div class="checkbox">
+                        <input type="file" name="file"/>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-    </form>
+    </div>
 </div>
 </body>
 </html>

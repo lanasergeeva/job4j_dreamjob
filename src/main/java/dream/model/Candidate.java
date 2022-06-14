@@ -6,22 +6,60 @@ public class Candidate {
     private int id;
     private String name;
     private String position;
+
+    private String skills;
     private City city;
+    private User user;
 
+    private String date;
 
-    public Candidate(int id, String name, String position) {
-        this.id = id;
-        this.name = name;
-        this.position = position;
+    public Candidate() {
     }
 
-    public Candidate(int id, String name, String position, City city) {
+    public Candidate(int id, String name, String position, String skills, City city) {
         this.id = id;
         this.name = name;
         this.position = position;
+        this.skills = skills;
         this.city = city;
     }
 
+
+    public Candidate(int id, String name, String position, String skills, City city, User user) {
+        this.id = id;
+        this.name = name;
+        this.position = position;
+        this.skills = skills;
+        this.city = city;
+        this.user = user;
+    }
+
+    public Candidate(int id, String name, String position, String skills, City city, User user, String date) {
+        this.id = id;
+        this.name = name;
+        this.position = position;
+        this.skills = skills;
+        this.city = city;
+        this.user = user;
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+
+    public String getSkills() {
+        return skills;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public int getId() {
         return id;
@@ -55,6 +93,13 @@ public class Candidate {
         this.city = city;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -65,12 +110,12 @@ public class Candidate {
             return false;
         }
         Candidate candidate = (Candidate) o;
-        return id == candidate.id && Objects.equals(name, candidate.name) && Objects.equals(position, candidate.position);
+        return id == candidate.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, position);
+        return Objects.hash(id);
     }
 
     @Override
@@ -79,7 +124,9 @@ public class Candidate {
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", position='" + position + '\''
+                + ", skills='" + skills + '\''
                 + ", city=" + city
+                + ", user=" + user
                 + '}';
     }
 }

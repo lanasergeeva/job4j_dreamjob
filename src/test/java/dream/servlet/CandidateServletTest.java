@@ -1,6 +1,7 @@
 package dream.servlet;
 
 import dream.model.Candidate;
+import dream.model.User;
 import dream.store.MemStore;
 import dream.store.PsqlStore;
 import dream.store.Store;
@@ -33,13 +34,16 @@ public class CandidateServletTest {
 
         PowerMockito.when(req.getParameter("id")).thenReturn("20");
         PowerMockito.when(req.getParameter("name")).thenReturn("Nikita");
-        PowerMockito.when(req.getParameter("position")).thenReturn("Junior");
+        PowerMockito.when(req.getParameter("position")).thenReturn("Java Junior Developer");
+        PowerMockito.when(req.getParameter("skills")).thenReturn("My skills");
         PowerMockito.when(req.getParameter("city_id")).thenReturn("2");
 
         new CandidateServlet().doPost(req, resp);
 
         Candidate result = store.findByIdCandidate(20);
         Assert.assertThat(result.getName(), Is.is("Nikita"));
-        Assert.assertThat(result.getPosition(), Is.is("Junior"));
+        Assert.assertThat(result.getPosition(), Is.is("Java Junior Developer"));
+        Assert.assertThat(result.getSkills(), Is.is("My skills"));
+        Assert.assertThat(result.getCity().getId(), Is.is(2));
     }
 }

@@ -78,6 +78,10 @@
         <servlet-name>CityServlet</servlet-name>
         <servlet-class>dream.servlet.CityServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OwnServlet</servlet-name>
+        <servlet-class>dream.servlet.OwnServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>PostServlet</servlet-name>
@@ -123,15 +127,17 @@
         <servlet-name>RegServlet</servlet-name>
         <url-pattern>/reg.do</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>GreetingServlet</servlet-name>
         <url-pattern>/greet</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>CityServlet</servlet-name>
         <url-pattern>/city</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OwnServlet</servlet-name>
+        <url-pattern>/my</url-pattern>
     </servlet-mapping>
 
 

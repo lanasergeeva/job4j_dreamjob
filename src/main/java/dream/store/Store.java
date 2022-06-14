@@ -20,9 +20,11 @@ public interface Store {
 
     Collection<City> findCities();
 
-    void savePost(Post post);
+    Collection<Post> findAllPostByUserIdPost(int id);
 
-    void saveCity(City city);
+    Collection<Candidate> findByUserIdCandidate(int userId);
+
+    void savePost(Post post);
 
     void saveCandidate(Candidate candidate);
 
@@ -36,11 +38,11 @@ public interface Store {
 
     void saveUser(User user) throws SQLException;
 
+    void saveCity(City city);
+
     User findByEmailUser(String name);
 
-    List<Post> findByNamePost(String name);
-
-    List<Candidate> findByNameCandidate(String name);
+    void deleteAllForTest();
 
 
 }

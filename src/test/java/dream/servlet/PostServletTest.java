@@ -1,5 +1,6 @@
 package dream.servlet;
 
+import dream.model.City;
 import dream.model.Post;
 import dream.store.MemStore;
 import dream.store.PsqlStore;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
 @RunWith(PowerMockRunner.class)
@@ -33,13 +35,16 @@ public class PostServletTest {
         HttpServletResponse resp = mock(HttpServletResponse.class);
 
         PowerMockito.when(req.getParameter("id")).thenReturn("20");
-        PowerMockito.when(req.getParameter("name")).thenReturn("n");
-        PowerMockito.when(req.getParameter("text")).thenReturn("d");
+        PowerMockito.when(req.getParameter("name")).thenReturn("Java Developer");
+        PowerMockito.when(req.getParameter("text")).thenReturn("New");
+        PowerMockito.when(req.getParameter("city_id")).thenReturn("10");
+
 
         new PostServlet().doPost(req, resp);
 
         Post result = store.findByIdPost(20);
-        Assert.assertThat(result.getName(), Is.is("n"));
-        Assert.assertThat(result.getText(), Is.is("d"));
+        assertThat(result.getName(), Is.is("Java Developer"));
+        assertThat(result.getText(), Is.is("New"));
+        assertThat(result.getCity().getId(), Is.is(10));
     }
 }

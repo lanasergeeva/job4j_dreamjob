@@ -25,5 +25,4 @@ public class DeleteCandidateServlet extends HttpServlet {
         req.setAttribute("candidates", PsqlStore.instOf().findAllCandidates());
         req.getRequestDispatcher("candidates.jsp").forward(req, resp);
     }
-
 }

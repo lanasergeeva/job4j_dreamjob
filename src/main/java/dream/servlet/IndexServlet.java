@@ -10,7 +10,8 @@ import java.io.IOException;
 
 public class IndexServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         req.setAttribute("candidates", PsqlStore.instOf().findAllCandidatesInDay());
         req.setAttribute("posts", PsqlStore.instOf().findAllPostsInDay());
         req.setAttribute("user", req.getSession().getAttribute("user"));
